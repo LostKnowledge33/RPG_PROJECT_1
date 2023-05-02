@@ -2,6 +2,9 @@
 
 
 #include "C_Player.h"
+#include "Global.h"
+
+#include "RPG_PROJECT_1GameMode.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -76,7 +79,29 @@ void AC_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AC_Player::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AC_Player::Look);
+
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AC_Player::Interact);
 	}
+}
+
+void AC_Player::RegisterInteractable(AC_NPC_Interactive* Interactable)
+{
+	UnRegisterInteractable();
+
+	bIsInteractable = true;
+	CurrentInteractable = Interactable;
+
+	ShowTalkButton();
+}
+
+void AC_Player::UnRegisterInteractable()
+{
+	if (CurrentInteractable == nullptr) return;
+
+	bIsInteractable = false;
+	CurrentInteractable = nullptr;
+
+	HideTalkButton();
 }
 
 void AC_Player::Move(const FInputActionValue& Value)
@@ -113,4 +138,13 @@ void AC_Player::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X * rate * GetWorld()->GetDeltaSeconds());
 		AddControllerPitchInput(LookAxisVector.Y * rate * GetWorld()->GetDeltaSeconds());
 	}
+}
+
+void AC_Player::Interact()
+{
+	if (CurrentInteractable == nullptr) return;
+
+	GAMEMODE->PlayDialog(CurrentInteractable->GetCommonDialog());
+
+	UnRegisterInteractable();
 }

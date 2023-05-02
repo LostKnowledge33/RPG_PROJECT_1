@@ -8,6 +8,8 @@ public class RPG_PROJECT_1 : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "EnhancedInput" });
-	}
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "LevelSequence", "MovieScene", "AnimGraphRuntime", "AIModule", "GameplayTasks", "Niagara", "EnhancedInput", "UMG" });
+
+        PublicIncludePaths.Add(ModuleDirectory);
+    }
 }
