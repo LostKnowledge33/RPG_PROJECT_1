@@ -6,6 +6,22 @@
 #include "Engine/DataAsset.h"
 #include "DA_Dialog.generated.h"
 
+
+USTRUCT(BlueprintType)
+struct FDialog_Response
+{
+	GENERATED_BODY()
+
+public:
+
+	UPROPERTY(EditAnywhere)
+		FString ButtonText;
+
+	UPROPERTY(EditAnywhere)
+		UDA_Dialog* followDialog;
+
+};
+
 /**
  * 
  */
@@ -22,4 +38,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 		TArray<FString> Lines;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+		TArray<FDialog_Response> Responses;
 };

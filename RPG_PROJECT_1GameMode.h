@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "DataAsset/DA_Dialog.h"
+#include "System/C_DialogSystem.h"
 
 #include "RPG_PROJECT_1GameMode.generated.h"
 
@@ -24,6 +25,9 @@ public:
 
 	void PlayDialog(UDA_Dialog* Dialog);
 	void ResetDialog();
+
+
+	FORCEINLINE AC_DialogSystem* GetDialogSystem() { return DialogSystem; }
 
 };
 

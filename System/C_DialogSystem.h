@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "UI/C_UI_Dialog.h"
+#include "UI/C_UI_Responses.h"
+
 #include "GameFramework/Actor.h"
 #include "C_DialogSystem.generated.h"
 
@@ -19,7 +22,17 @@ private:
 		class UDA_Dialog* Dialog;
 
 
-	TSubclassOf<UUserWidget> UI_Dialog_Class;
+	// UI ===========================================
+	TSubclassOf<UC_UI_Dialog> UI_Dialog_Class;
+	UC_UI_Dialog* UI_Dialog_Widget;
+
+	TSubclassOf<UC_UI_Responses> UI_Response_Class;
+	UC_UI_Responses* UI_Response_Widget;
+	// UI ===========================================
+
+
+	int32 iLineIndex = -1;
+	//int32 iTextIndex = 0;
 
 public:	
 	// Sets default values for this actor's properties
@@ -35,5 +48,8 @@ public:
 
 	void BeginDialog(class UDA_Dialog* _Dialog);
 	void EndDialog();
+
+	UFUNCTION()
+		void NextLine();
 
 };
