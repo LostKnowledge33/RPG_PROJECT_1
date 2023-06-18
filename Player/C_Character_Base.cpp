@@ -16,3 +16,9 @@ void AC_Character_Base::BeginPlay()
 	
 }
 
+void AC_Character_Base::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+

@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include "GameFramework/Character.h"
+#include "Components/TimeLineComponent.h"
 
 #include "Player/C_Character_Base.h"
 #include "NPC/C_NPC_Interactive.h"
@@ -24,7 +25,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
 
-	/// Enhanced Input =====================================
+	/// Enhanced Input ===================================
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputMappingContext* DefaultMappingContext;
 
@@ -40,21 +41,35 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 		class UInputAction* InteractAction;
 
-	/// Enhanced Input ====================================
+	/// Enhanced Input End ================================
 
 
 	/// Interaction =======================================
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "_Interaction", meta = (AllowPrivateAccess = "true"))
 		class AC_NPC_Interactive* CurrentInteractable;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "_Interaction", meta = (AllowPrivateAccess = "true"))
 		bool bIsInteractable = false;
 
-	/// Interaction =======================================
+	/// Interaction End ====================================
 
-public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "_Timeline", Meta = (AllowPrivateAccess = "true"))
+		UCurveFloat* CurveF_TalkCameraMove;
 
-	AC_Player();
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "_Timeline", meta = (AllowPrivateAccess = "true"))
+		float LerpTimelineLength;
+
+	FTimeline LerpTimeline;
+
+
+	bool bCameraMove = false;
+
+	FTransform tf_OldCameraTransform;
+
+private:
+
+	UFUNCTION()
+		void TalkCameraMove(float curveData);
 
 protected:
 
@@ -66,6 +81,8 @@ protected:
 	void Interact();
 
 public:
+
+	AC_Player();
 
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;

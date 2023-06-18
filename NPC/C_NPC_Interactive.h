@@ -17,6 +17,10 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Interaction, meta = (AllowPrivateAccess = "true"))
 		class USphereComponent* Sphere;
 
+	FRotator NewRotation, OldRotation;
+
+	bool bNewRotation = false;
+
 public:
 	// Sets default values for this character's properties
 	AC_NPC_Interactive();
@@ -32,6 +36,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	void RotateActor(const FRotator& _NewRotation);
 
 
 	UFUNCTION()

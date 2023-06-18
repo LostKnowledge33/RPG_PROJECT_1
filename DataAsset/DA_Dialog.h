@@ -6,6 +6,11 @@
 #include "Engine/DataAsset.h"
 #include "DA_Dialog.generated.h"
 
+UENUM(BlueprintType)
+enum class EDialogEnum : uint8
+{
+	TALK, QUEST, MAX
+};
 
 USTRUCT(BlueprintType)
 struct FDialog_Response
@@ -15,10 +20,10 @@ struct FDialog_Response
 public:
 
 	UPROPERTY(EditAnywhere)
-		FString ButtonText;
+		EDialogEnum DialogType;
 
 	UPROPERTY(EditAnywhere)
-		UDA_Dialog* followDialog;
+		FString ButtonText;
 
 };
 

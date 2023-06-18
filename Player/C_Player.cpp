@@ -5,6 +5,7 @@
 #include "Global.h"
 
 #include "RPG_PROJECT_1GameMode.h"
+#include "System/C_SS_DialogSystem.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -44,6 +45,14 @@ AC_Player::AC_Player()
 	FollowCamera->bUsePawnControlRotation = false;
 }
 
+void AC_Player::TalkCameraMove(float curveData)
+{
+	PRINT(FString::FromInt(curveData));
+	FVector NewLoc = FollowCamera->GetRelativeLocation().ForwardVector * curveData;
+	FollowCamera->SetRelativeLocation(NewLoc);
+
+}
+
 // Called when the game starts or when spawned
 void AC_Player::BeginPlay()
 {
@@ -56,13 +65,28 @@ void AC_Player::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+
+	FOnTimelineFloat Curve1Callback;
+	Curve1Callback.BindUFunction(this, FName("TalkCameraMove"));
+	LerpTimeline.AddInterpFloat(CurveF_TalkCameraMove, Curve1Callback);
+	LerpTimeline.SetTimelineLength(LerpTimelineLength);
 	
+	//FOnTimelineEvent LerpTimelineFinishedCallback;
+	//LerpTimelineFinishedCallback.BindUFunction(this, FName("함수이름4"));
+	//LerpTimeline.SetTimelineFinishedFunc(LerpTimelineFinishedCallback);
 }
 
 // Called every frame
 void AC_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	LerpTimeline.TickTimeline(DeltaTime);
+
+	if (bCameraMove)
+	{
+
+	}
 
 }
 
@@ -144,7 +168,14 @@ void AC_Player::Interact()
 {
 	if (CurrentInteractable == nullptr) return;
 
-	GAMEMODE->PlayDialog(CurrentInteractable->GetCommonDialog());
+	FRotator dir = UKismetMathLibrary::FindLookAtRotation(CurrentInteractable->GetActorLocation(), GetActorLocation());
+	
+	CurrentInteractable->RotateActor(dir);
+	//LerpTimeline.PlayFromStart();
 
+	//tf_OldCameraTransform = FollowCamera->GetRelativeTransform();
+	//bCameraMove = true;
+	
+	SUBSYSTEM(UC_SS_DialogSystem)->BeginDialog(CurrentInteractable->GetCommonDialog(), this);
 	UnRegisterInteractable();
 }

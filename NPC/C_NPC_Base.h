@@ -22,17 +22,17 @@ private:
 		int32 NID;
 
 	UPROPERTY(EditDefaultsOnly, Category = NPC_Base, meta = (AllowPrivateAccess = "true"))
-		FName NPC_Name;
-
-	UPROPERTY(EditDefaultsOnly, Category = NPC_Base, meta = (AllowPrivateAccess = "true"))
 		UDA_Dialog* CommonDialog;
-
+	
+	FName NPC_Name;
 
 public:
 
 	AC_NPC_Base();
 
 	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
 
 	inline UDA_Dialog* GetCommonDialog() { return CommonDialog; }
 

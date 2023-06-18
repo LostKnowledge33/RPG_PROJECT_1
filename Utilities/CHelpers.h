@@ -80,4 +80,14 @@ public:
 
 		FFileHelper::SaveStringToFile(FileContent, *FilePath, FFileHelper::EEncodingOptions::AutoDetect, &IFileManager::Get(), EFileWrite::FILEWRITE_Append);
 	}
+
+	template<typename T>
+	static T* GetSubSystem(UWorld* World)
+	{
+		UGameInstance* GameInstance = World->GetGameInstance();
+		T* Subsystem = GameInstance->GetSubsystem<T>();
+
+		return Subsystem;
+	}
+	
 };

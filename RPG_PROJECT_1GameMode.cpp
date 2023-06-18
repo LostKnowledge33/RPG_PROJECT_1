@@ -2,8 +2,6 @@
 
 #include "RPG_PROJECT_1GameMode.h"
 #include "Global.h"
-#include "System/C_DialogSystem.h"
-
 
 #include "UObject/ConstructorHelpers.h"
 
@@ -15,18 +13,4 @@ ARPG_PROJECT_1GameMode::ARPG_PROJECT_1GameMode()
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
-}
-
-void ARPG_PROJECT_1GameMode::PlayDialog(UDA_Dialog* Dialog)
-{
-	if (DialogSystem == nullptr)
-	{
-		DialogSystem = GetWorld()->SpawnActor<AC_DialogSystem>();
-		DialogSystem->BeginDialog(Dialog);
-	}
-}
-
-void ARPG_PROJECT_1GameMode::ResetDialog()
-{
-
 }

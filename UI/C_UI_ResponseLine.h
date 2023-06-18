@@ -13,10 +13,21 @@ UCLASS()
 class RPG_PROJECT_1_API UC_UI_ResponseLine : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+private:
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true", BindWidget))
+		class UTextBlock* TXT_Response;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true", BindWidget))
+		class UButton* BTN_Respond;
+
 public:
 
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float DeltaTime) override;
 
+	void SetButtonText(FText text);
+	
+	inline class UButton* GetButton() { return BTN_Respond; }
 };
